@@ -1,46 +1,42 @@
 from classCard import Card
+from random import shuffle
+
 
 class Container:
     def __init__(self):
-        self.cards = {}
+        self.__cards = []
 
     def add_card(self, Card):
-        self.cards[len(self.cards)] = Card
+        self.__cards.append(Card)
 
     def pop_card(self, number=0):
-        self.cards.pop(number)
+        return self.__cards.pop(number)
 
     def get_card(self, number):
-        return self.cards[number]
+        return self.__cards[number]
 
     def __len__(self):
-        return len(self.cards)
-
-    # def __repr__(self):
-    #     num = 0
-    #     for i in self.cards.keys():
-    #         num += 1
-    #         print(f'{num} : {self.cards[i]}')
-    #     return ''
+        return len(self.__cards)
 
     def __repr__(self):
-        for i, it in enumerate(self.cards):
-            print(f'{i+1} : {self.cards[it]}')
+        for i, elem in enumerate(self.__cards):
+            print(f'{i + 1} : {elem}')
         return ''
+
+    def shuffle_cards(self):
+        shuffle(self.__cards)
+
+    def count_glasses(self):
+        # summ = 0
+        # for card in self.__cards:
+        #     summ += card.glasses
+        # return summ
+        return sum([x.glasses for x in self.__cards])
 
 
 if __name__ == "__main__":
-    # class Deck(Container):
-    #     def __init__(self, countCards):
-    #         super().__init__()
-    #         i = 0
-    #         while i < countCards:
-    #             self.cards[i] = Card(i + 1)
-    #             i += 1
-
-
-
-    print(Deck(14))
-    print(Deck(104).cards)
-
-
+    c = Container()
+    for i in range(104):
+        c.add_card(Card(i + 1))
+    print(c)
+    print(len(c))

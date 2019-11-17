@@ -1,6 +1,6 @@
 from classContainer import Container
 from classCard import Card
-from random import choice
+
 
 class Player:
     def __init__(self, name="Computer"):
@@ -25,24 +25,25 @@ class Player:
         return ''
 
     def choose_card(self):
-        self.chosenCard = choice(self.hand.cards)
-        for i in self.hand.cards.keys():
-            if self.chosenCard == self.hand.cards[i]:
-                self.hand.pop_card(i)
-                return
+        if len(self.hand) > 1:
+            # логика высчитывания выбора карты с руки
+            self.chosenCard = self.hand.pop_card(1)
+            return True
+        else:
+            self.chosenCard = self.hand.pop_card()
+            return False
 
-    def draw_heap(self, row):
-        for i in row.cards.keys():
-            self.heap.add_card(row.cards[i])
+    def draw_heap(self, row: Container):
+        for _ in range(len(row)):
+            self.heap.add_card(row.pop_card())
         self.count_glasses()
 
     def count_glasses(self):
-        self.countedGlasses = 0
-        for i in self.heap.cards.keys():
-            self.countedGlasses += self.heap.cards[i].glasses
+        self.countedGlasses = self.heap.count_glasses()
 
     def score(self):
-        return f"Player {self.name} collected {self.countedGlasses} glasses!"
+        print(f'Player {self.name} collected {self.countedGlasses} glasses!')
+
 
 if __name__ == "__main__":
     trus = Player("Coward")
@@ -50,19 +51,20 @@ if __name__ == "__main__":
     trus.hand.add_card(Card(5))
     trus.hand.add_card(Card(72))
     trus.hand.add_card(Card(104))
-
+    # trus.choose_card()
+    # print(trus.chosenCard)
     trus.heap.add_card(Card(55))
     trus.draw_heap(trus.hand)
+    trus.score()
+    # cards = {0: Card(5), 1: Card(72), 2: Card(104)}
+    # cards2 = {0: Card(55), 1: Card(5), 2: Card(72), 3: Card(104)}
+    # assert(cards == trus.hand.__cards)
+    # assert(cards2 == trus.heap.__cards)
 
-    cards = {0: Card(5), 1: Card(72), 2: Card(104)}
-    cards2 = {0: Card(55), 1: Card(5), 2: Card(72), 3: Card(104)}
-    assert(cards == trus.hand.cards)
-    assert(cards2 == trus.heap.cards)
 
+    # print(trus)
+    # print(trus.heap)
 
-    print(trus.hand)
-    trus.choose_card()
-    print(trus.chosenCard)
-    print(trus)
+    # print(trus)
     print(trus.countedGlasses)
-    print(trus.score())
+    # print(trus.score())
