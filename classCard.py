@@ -40,3 +40,8 @@ if __name__ == "__main__":
 
     assert(Card(50) < Card(79))
     assert(Card(102) > Card(3))
+
+    print(Card(5))
+    print(Card(72))
+    print(Card(104))
+    print(Card(55))
